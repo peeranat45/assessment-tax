@@ -4,18 +4,22 @@ package service
 
 
 func TaxCalculation(request TaxCalculationRequest) (*TaxCalculationResponse, error) {
+
+	taxCalculated := 0.0
 	
 	if request.TotalIncome <= 150000 {
-		return &TaxCalculationResponse{Tax: 0}, nil
+		taxCalculated = 0
 	}else if request.TotalIncome <= 500000{
-		return &TaxCalculationResponse{Tax: 0.10 * (request.TotalIncome - 150000 - 60000)}, nil
+		taxCalculated = 0.10 * (request.TotalIncome - 150000 - 60000)
 	}else if request.TotalIncome <= 1000000{
-		return &TaxCalculationResponse{Tax: 0.15 * (request.TotalIncome - 500000 - 60000)}, nil
+		taxCalculated = 0.15 * (request.TotalIncome - 500000 - 60000)
 	}else if request.TotalIncome <= 2000000{
-		return &TaxCalculationResponse{Tax: 0.20 * (request.TotalIncome - 1000000 - 60000)}, nil
+		taxCalculated = 0.20 * (request.TotalIncome - 1000000 - 60000)
 	}else if request.TotalIncome > 2000000{
-		return &TaxCalculationResponse{Tax: 0.35 * (request.TotalIncome - 2000000 - 60000)}, nil
+		taxCalculated =  0.35 * (request.TotalIncome - 2000000 - 60000)
+	}else {
+		return nil, nil
 	}
 
-	return nil, nil
+	return &TaxCalculationResponse{Tax: taxCalculated}, nil
 } 
