@@ -200,4 +200,31 @@ func TestCalculateTaxWithAllowances(t *testing.T) {
 
 		assert.Equal(t, want, *got)
 	})
+
+	t.Run("Cal Tax with k-receipt", func(t *testing.T) {
+		want := TaxCalculationResponse{
+			Tax: 14000.0,
+		}
+
+		got, err := TaxCalculation(TaxCalculationRequest{
+			TotalIncome: 500000.0,
+			Wht: 0,
+			Allowances: []Allowance{
+				{
+					AllowanceType: "k-receipt",
+					Amount: 200000.0,
+				},
+				{
+					AllowanceType: "donation",
+					Amount: 100000.0,
+				},
+			
+			},
+		})
+
+		assert.Nil(t, err)
+		assert.NotNil(t, got)
+
+		assert.Equal(t, want, *got)
+	})
 }

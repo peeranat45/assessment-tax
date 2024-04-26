@@ -18,6 +18,8 @@ func TaxCalculation(request TaxCalculationRequest) (*TaxCalculationResponse, err
 	for _, allowance := range request.Allowances {
 		if allowance.AllowanceType == "donation" {
 			taxCalculated -= min(allowance.Amount, 100000.0)
+		}else if allowance.AllowanceType == "k-receipt" {
+			taxCalculated -= min(allowance.Amount, 50000.0)
 		}
 	}
 
