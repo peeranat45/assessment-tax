@@ -15,11 +15,11 @@ func TaxCalculation(request TaxCalculationRequest) (*TaxCalculationResponse, err
 
 	// allowances
 	taxCalculated -= 60000
-	// for _, allowance := range request.Allowances {
-	// 	if allowance.AllowanceType == "donation" {
-	// 		taxCalculated -= min(allowance.Amount, 100000.0)
-	// 	}
-	// }
+	for _, allowance := range request.Allowances {
+		if allowance.AllowanceType == "donation" {
+			taxCalculated -= min(allowance.Amount, 100000.0)
+		}
+	}
 
 	if taxCalculated <= 150000 {
 		taxCalculated = 0
