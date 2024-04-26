@@ -113,3 +113,69 @@ func TestCalculateTaxWithoutWHT(t *testing.T) {
 	// 	assert.Equal(t, want, *got)
 	// })
 }
+
+func TestCalculateTaxWithWHT(t *testing.T) {
+	t.Run("Cal Tax with WHT", func(t *testing.T) {
+		want := TaxCalculationResponse{
+			Tax: 4000,
+		}
+		got, err := TaxCalculation(TaxCalculationRequest{
+			TotalIncome: 500000.0,
+			Wht: 25000.0,
+			Allowances: []Allowance{
+				{
+					AllowanceType: "donation",
+					Amount: 0,
+				},
+			},
+		})
+
+		assert.Nil(t, err)
+		assert.NotNil(t, got)
+
+		assert.Equal(t, want, *got)
+	})
+
+	t.Run("Cal Tax with WHT less than 150000 ", func(t *testing.T) {
+		want := TaxCalculationResponse{
+			Tax: 0,
+		}
+		got, err := TaxCalculation(TaxCalculationRequest{
+			TotalIncome: 150000.0,
+			Wht: 25000.0,
+			Allowances: []Allowance{
+				{
+					AllowanceType: "donation",
+					Amount: 0,
+				},
+			},
+		})
+
+		assert.Nil(t, err)
+		assert.NotNil(t, got)
+
+		assert.Equal(t, want, *got)
+	})
+
+	t.Run("Cal Tax with WHT less than 1000000 ", func(t *testing.T) {
+		want := TaxCalculationResponse{
+			Tax: 41000,
+		}
+		got, err := TaxCalculation(TaxCalculationRequest{
+			TotalIncome: 1000000.0,
+			Wht: 25000.0,
+			Allowances: []Allowance{
+				{
+					AllowanceType: "donation",
+					Amount: 0,
+				},
+			},
+		})
+
+		assert.Nil(t, err)
+		assert.NotNil(t, got)
+
+		assert.Equal(t, want, *got)
+	})
+}
+
