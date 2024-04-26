@@ -21,5 +21,13 @@ func TaxCalculation(request TaxCalculationRequest) (*TaxCalculationResponse, err
 		return nil, nil
 	}
 
+	// wht
+	taxCalculated = taxCalculated - request.Wht
+
+	// Validate tax negative
+	if taxCalculated < 0 {
+		taxCalculated = 0
+	}
+
 	return &TaxCalculationResponse{Tax: taxCalculated}, nil
 } 
